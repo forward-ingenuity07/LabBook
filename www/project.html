@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" src="scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Project info</title>
+    <style>
+        .dating1{
+            text-decoration:underline;
+
+        }
+        .time{
+            color:gray;
+            
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1 id="head"></h1>
+            
+            
+        </div>
+    </div>
+    <div class="container" id="Date">
+
+
+    </div>
+    <div class="container" id="elements2">
+
+
+    </div>
+    <div id="bottom" style="position:fixed;bottom:3px; width:100%">
+        <form class="form-inline">
+            <div style="width:100%">
+                <center>
+                    
+                    <input type="text" name="mytext[]" class="form-control" style="width:400px" placeholder="Enter something" id="message" />
+                    <button type="button" class="btn btn-default" id="posting">Post</button>
+                
+                </center>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                
+                $("#head").text(window.localStorage.getItem("heading_project"));
+                    var today = new Date();
+
+                    var day = today.getUTCDate();
+                    if (day < 10) {
+                        day = '0' + month;
+                    }
+                    var month = today.getMonth() + 1;
+                    if (month < 10) {
+                        month = '0' + month;
+                    }
+                    var year = today.getFullYear();
+                    var hour = today.getHours();
+                    if (hour < 10) {
+                        hour = '0' + hour;
+
+                    }
+                    var minutes = today.getMinutes();
+                    if (minutes < 10) {
+                        minutes = '0' + hour;
+                    }
+
+                    var time_string = hour + ':' + minutes;
+                   // alert(time_string);
+                    date_string = day + '/' + month + '/' + year;
+                    if(window.localStorage.getItem('position')==null){
+                        window.localStorage.setItem('position','1');
+                    }
+                   // alert(window.localStorage.getItem('current_date1'));
+                    if(!(window.localStorage.getItem('current_date'+(Number(window.localStorage.getItem('position'))-1))==date_string)){
+                        
+                        if (window.localStorage.getItem('position') != null) {
+                            
+                            
+                            
+                            window.localStorage.setItem('current_date' + window.localStorage.getItem('position'), date_string);
+                            var position = Number(window.localStorage.getItem('position'));
+                            position += 1;
+                            window.localStorage.setItem('position', position);
+                        }
+                        else {
+                            window.localStorage.setItem('position', '1');
+                            window.localStorage.setItem('current_date' + window.localStorage.getItem('position'), date_string);
+                            var position = window.localStorage.getItem('position');
+                        }
+
+
+                    }
+                    else {
+                       
+                        
+                    }
+                   // alert(window.localStorage.getItem('position'));
+                    var outDiv = document.getElementById('Date');
+                    var dating = document.createElement('a');
+                    
+                    
+                    
+                    
+                    var elements = document.getElementById("elements2");
+                    var messages = JSON.parse(window.localStorage.getItem('messages' + window.localStorage.getItem("heading_project")));
+                    var timing = JSON.parse(window.localStorage.getItem('time' + window.localStorage.getItem("heading_project")));
+                    var datt = JSON.parse(window.localStorage.getItem('date' + window.localStorage.getItem("heading_project")));
+                    for (var i = 0; i < messages.length; i++)
+                    {
+                        if (i == 0) {
+                            dating.className = 'pull-right';
+                            dating.innerHTML = '<p class="dating1">' + datt[i] + '</p>';
+                            outDiv.appendChild(dating);
+                        }
+                        if (i != messages.length - 1) {
+                            if (datt[i] != datt[i + 1]) {
+
+                                dating.className = 'pull-right';
+                                dating.innerHTML = '<p class="dating1">' + datt[i] + '</p>';
+                                outDiv.appendChild(dating);
+
+                            }
+                        }
+                        else if(i!=0){
+                            if (datt[i] != datt[i - 1]) {
+                                dating.className = 'pull-right';
+                                dating.innerHTML = '<p class="dating1">' + datt[i] + '</p>';
+                                outDiv.appendChild(dating);
+
+                            }
+                        }
+                        var paragra = document.createElement('p');
+                        var nl = document.createElement('br');
+                        paragra.innerHTML = '<span class="time">'+timing[i]+':</span>'+' ' + messages[i];
+                        elements.appendChild(paragra);
+                        elements.appendChild(nl);
+                    }
+
+            })
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function (){
+            var today = new Date();
+            
+            var day = today.getUTCDate();
+            if (day < 10) {
+                day = '0' + month;
+            }
+            var month = today.getMonth()+1;
+            if (month < 10) {
+                month = '0' + month;
+            }
+            var year = today.getFullYear();
+            
+            date_string = day + '/' + month+'/'+year;
+           
+            var hous = today.getHours();
+            var mins = today.getMinutes();
+            window.localStorage.setItem('new_date', day.value);
+
+        })
+
+
+    </script>
+
+    <script>
+
+        $("#posting").click(function () {
+            
+            var today = new Date();
+
+            var day = today.getUTCDate();
+            if (day < 10) {
+                day = '0' + month;
+            }
+            var month = today.getMonth() + 1;
+            if (month < 10) {
+                month = '0' + month;
+            }
+            var year = today.getFullYear();
+            var hour = today.getHours();
+            if (hour < 10) {
+                hour = '0' + hour;
+
+            }
+            var minutes = today.getMinutes();
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+
+            var time_string = hour + ':' + minutes;
+            
+            var date_string = day + '/' + month + '/' + year;
+           // alert(time_string);
+
+            message = $("#message").val();
+            if (window.localStorage.getItem('messages'+window.localStorage.getItem("heading_project")) == null) {
+                window.localStorage.setItem('messages' + window.localStorage.getItem("heading_project"), "[]");
+                window.localStorage.setItem('date' + window.localStorage.getItem("heading_project"), "[]");
+                window.localStorage.setItem('time' + window.localStorage.getItem("heading_project"), "[]");
+            }
+            else {
+
+            }
+            var array_messages = [];
+            var array_time = [];
+            var array_date = [];
+            array_messages = JSON.parse(window.localStorage.getItem('messages' + window.localStorage.getItem("heading_project")));
+            array_time = JSON.parse(window.localStorage.getItem('time' + window.localStorage.getItem("heading_project")));
+            array_date = JSON.parse(window.localStorage.getItem('date' + window.localStorage.getItem("heading_project")));
+            array_messages[array_messages.length] = message;
+            array_time[array_messages.length - 1] = time_string;
+            array_date[array_messages.length - 1] = date_string;
+            window.localStorage.setItem('messages' + window.localStorage.getItem("heading_project"), JSON.stringify(array_messages));
+            window.localStorage.setItem('time' + window.localStorage.getItem("heading_project"), JSON.stringify(array_time));
+            window.localStorage.setItem('date' + window.localStorage.getItem("heading_project"), JSON.stringify(array_date));
+            window.location.replace('project.html');
+        });
+
+    </script>
+    <script type="text/javascript" src="scripts/cordova-2.4.0.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+
+</body>
+</html>
